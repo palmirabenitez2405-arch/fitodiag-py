@@ -1,0 +1,9 @@
+data/
+models/
+paper/
+notebooks/
+tests/
+.git/
+**/__pycache__/
+*.pt
+.venv/

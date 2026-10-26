@@ -1,0 +1,33 @@
+# Levanta todo el sistema con un solo comando:
+#   docker compose up --build
+# UI:  http://localhost:8501
+# API: http://localhost:8000/docs
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+    image: fitodiag-api:latest
+    ports:
+      - "8000:8000"
+    environment:
+      MODEL_PATH: /app/models/best_model.pt
+      CONFIDENCE_THRESHOLD: "0.5"
+      TORCH_THREADS: "2"
+    volumes:
+      - ./models:/app/models:ro
+    restart: unless-stopped
+
+  ui:
+    build:
+      context: .
+      dockerfile: docker/ui.Dockerfile
+    image: fitodiag-ui:latest
+    ports:
+      - "8501:8501"
+    environment:
+      API_URL: http://api:8000
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped

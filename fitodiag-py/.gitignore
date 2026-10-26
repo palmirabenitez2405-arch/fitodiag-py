@@ -1,0 +1,23 @@
+# Datos (se regeneran con los scripts; ver data/README.md)
+data/raw/
+data/processed/
+# Modelos: el que usa la demo se versiona con Git LFS (ver README)
+models/*/
+!models/.gitkeep
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+# LaTeX
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.bbl
+paper/*.blg
+paper/*.synctex.gz
+# Varios
+.DS_Store
+.ipynb_checkpoints/
+kaggle.json

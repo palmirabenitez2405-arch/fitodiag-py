@@ -1,0 +1,108 @@
+{
+  "_aviso": "Sugerencias generales de manejo con fines educativos. No reemplazan el diagnóstico de un ingeniero agrónomo. Usar solo productos registrados ante el SENAVE y seguir la etiqueta.",
+  "soja__roya": {
+    "nombre": "Roya asiática de la soja",
+    "agente": "Phakopsora pachyrhizi (hongo)",
+    "severidad": "alta",
+    "sintomas": "Pequeñas lesiones castaño-rojizas en el envés de las hojas inferiores, con pústulas que liberan polvo (esporas).",
+    "sugerencia": "Confirmar con lupa en el envés y avisar al técnico. Aplicar fungicida registrado ante el SENAVE en el momento que indique el técnico, rotando modos de acción para evitar resistencia. Respetar la pausa fitosanitaria y eliminar soja guacha."
+  },
+  "soja__mosaico": {
+    "nombre": "Mosaico de la soja",
+    "agente": "Virus (transmitido por pulgones y semilla)",
+    "severidad": "media",
+    "sintomas": "Hojas con áreas verde claro y verde oscuro alternadas, arrugadas o deformadas.",
+    "sugerencia": "No tiene cura química. Usar semilla certificada, controlar pulgones vectores y eliminar plantas muy afectadas. Consultar al técnico sobre variedades tolerantes."
+  },
+  "soja__ojo_de_rana": {
+    "nombre": "Mancha ojo de rana",
+    "agente": "Cercospora sojina (hongo)",
+    "severidad": "media",
+    "sintomas": "Manchas circulares con centro gris claro y borde rojizo oscuro.",
+    "sugerencia": "Rotar cultivos, usar variedades resistentes y semilla tratada. Si avanza en el canopeo, consultar al técnico sobre un fungicida registrado."
+  },
+  "soja__mancha_marron": {
+    "nombre": "Mancha marrón (Septoria)",
+    "agente": "Septoria glycines (hongo)",
+    "severidad": "baja",
+    "sintomas": "Pequeñas manchas marrones irregulares en hojas inferiores, con amarillamiento alrededor.",
+    "sugerencia": "Forma parte de las enfermedades de fin de ciclo. Rotación de cultivos y manejo de rastrojo. El técnico evaluará si conviene incluirla en la aplicación de fungicida del ciclo."
+  },
+  "soja__oruga": {
+    "nombre": "Daño por orugas (defoliadoras)",
+    "agente": "Insectos (orugas medidoras y otras)",
+    "severidad": "media",
+    "sintomas": "Hojas comidas, con agujeros o bordes faltantes.",
+    "sugerencia": "Monitorear con paño vertical y contar orugas por metro. Aplicar insecticida registrado solo si se supera el umbral de daño que indique el técnico. Preferir productos selectivos que cuiden a los enemigos naturales."
+  },
+  "soja__sana": {
+    "nombre": "Hoja de soja sana",
+    "agente": "—",
+    "severidad": "ninguna",
+    "sintomas": "Sin síntomas visibles.",
+    "sugerencia": "Continuar con el monitoreo semanal del lote, sobre todo en floración y llenado de granos."
+  },
+  "mandioca__mosaico": {
+    "nombre": "Mosaico de la mandioca (CMD)",
+    "agente": "Begomovirus (transmitido por mosca blanca)",
+    "severidad": "alta",
+    "sintomas": "Hojas con mosaico amarillo-verde, deformadas y reducidas.",
+    "sugerencia": "Atención: el mosaico africano de la mandioca no está reportado en América. Si el sistema lo detecta, puede ser otro virus o un error del modelo: avisar al técnico o al SENAVE. Usar ramas-semilla de plantas sanas y eliminar plantas sintomáticas."
+  },
+  "mandioca__estria_marron": {
+    "nombre": "Estría marrón de la mandioca (CBSD)",
+    "agente": "Ipomovirus (transmitido por mosca blanca)",
+    "severidad": "alta",
+    "sintomas": "Amarillamiento en bandas a lo largo de las nervaduras; necrosis en la raíz.",
+    "sugerencia": "Atención: esta enfermedad no está reportada en América. Si el sistema la detecta, confirmar con un técnico o el SENAVE antes de tomar medidas. Usar material de siembra sano."
+  },
+  "mandioca__bacteriosis": {
+    "nombre": "Bacteriosis de la mandioca (CBB)",
+    "agente": "Xanthomonas phaseoli pv. manihotis (bacteria)",
+    "severidad": "alta",
+    "sintomas": "Manchas angulares acuosas, marchitez de hojas y muerte descendente de brotes.",
+    "sugerencia": "Usar ramas-semilla de plantas sanas, rotar cultivos y eliminar y quemar plantas enfermas. Desinfectar las herramientas de corte. Evitar trabajar el cultivo cuando está mojado."
+  },
+  "mandioca__moteado_verde": {
+    "nombre": "Moteado verde de la mandioca (CGM)",
+    "agente": "Virus (Cassava green mottle virus)",
+    "severidad": "media",
+    "sintomas": "Hojas jóvenes con moteado amarillo-verdoso, achicadas y deformadas.",
+    "sugerencia": "Enfermedad poco documentada en la región: confirmar con un técnico. Síntomas parecidos pueden deberse a ácaros o a deficiencias. Usar ramas-semilla de plantas sanas y eliminar las plantas afectadas."
+  },
+  "mandioca__sana": {
+    "nombre": "Hoja de mandioca sana",
+    "agente": "—",
+    "severidad": "ninguna",
+    "sintomas": "Sin síntomas visibles.",
+    "sugerencia": "Seguir usando ramas-semilla de plantas sanas y monitorear la mosca blanca."
+  },
+  "sesamo__mancha_foliar": {
+    "nombre": "Mancha foliar del sésamo",
+    "agente": "Hongos (p. ej., Cercospora, Alternaria)",
+    "severidad": "media",
+    "sintomas": "Manchas marrones circulares o angulares en las hojas.",
+    "sugerencia": "Usar semilla sana o tratada, respetar la densidad de siembra para que circule el aire y rotar cultivos. Consultar al técnico si la mancha avanza rápido."
+  },
+  "sesamo__amarillamiento": {
+    "nombre": "Amarillamiento de la hoja",
+    "agente": "Causa variable (nutricional, virus o estrés hídrico)",
+    "severidad": "media",
+    "sintomas": "Hojas amarillentas, parciales o completas.",
+    "sugerencia": "Revisar el drenaje del suelo y el estado nutricional. Un análisis de suelo ayuda a descartar deficiencias. Si hay muchas plantas afectadas en manchones, consultar al técnico."
+  },
+  "sesamo__insectos": {
+    "nombre": "Daño por insectos",
+    "agente": "Insectos masticadores o chupadores",
+    "severidad": "media",
+    "sintomas": "Agujeros, bordes comidos o hojas enrolladas.",
+    "sugerencia": "Identificar el insecto y monitorear su población. El sésamo de exportación tiene límites estrictos de residuos: aplicar solo productos registrados y respetar el período de carencia."
+  },
+  "sesamo__sana": {
+    "nombre": "Hoja de sésamo sana",
+    "agente": "—",
+    "severidad": "ninguna",
+    "sintomas": "Sin síntomas visibles.",
+    "sugerencia": "Continuar con el monitoreo del lote."
+  }
+}
