@@ -75,7 +75,7 @@ La Fig.~\ref{fig:arq} muestra la arquitectura. La API en FastAPI expone \texttt{
 
 \section{Resultados y discusi\'on}
 
-La Tabla~\ref{tab:results} resume el desempe\~no en el conjunto de prueba (\dsTest{} im\'agenes). EfficientNet-B0 obtuvo un F1 macro de \effFone\,\% y ResNet50, de \resFone\,\%. \pend{[Completar: cu\'al fue mejor y por cu\'anto. Si la diferencia es menor a 1 punto, decir que son equivalentes en exactitud.]} En latencia, EfficientNet-B0 tard\'o \effMs~ms por imagen en CPU frente a \resMs~ms de ResNet50, con 4,0 frente a 23,5 millones de par\'ametros. Por esa raz\'on se eligi\'o EfficientNet-B0 para la API.
+La Tabla~\ref{tab:results} resume el desempe\~no en el conjunto de prueba (\dsTest{} im\'agenes). EfficientNet-B0 obtuvo un F1 macro de \effFone\,\% y ResNet50, de \resFone\,\%. Ambos alcanzaron la misma exactitud (\effAcc\,\%) y la diferencia de F1 es menor a un punto, por lo que se consideran equivalentes; tampoco difieren en la exactitud top-3 (\effTop{} y \resTop\,\%). En latencia, EfficientNet-B0 tard\'o \effMs~ms por imagen en CPU frente a \resMs~ms de ResNet50, con 4,0 frente a 23,5 millones de par\'ametros. Por esa raz\'on se eligi\'o EfficientNet-B0 para la API.
 
 \begin{table}[t]
 \caption{Desempe\~no en el conjunto de prueba}
@@ -86,7 +86,7 @@ La Tabla~\ref{tab:results} resume el desempe\~no en el conjunto de prueba (\dsTe
 \footnotesize $^{\dagger}$Sin aumento de datos ni muestreo ponderado.
 \end{table}
 
-La ablaci\'on mide el aporte de las t\'ecnicas contra el desbalance: sin aumento de datos ni muestreo ponderado, el F1 macro de EfficientNet-B0 fue \baseFone\,\%, frente a \effFone\,\% con ellas. \pend{[Interpretar: si mejoraron sobre todo las clases minoritarias, mencionarlo con la clase concreta.]} La Fig.~\ref{fig:curves} muestra la evoluci\'on del F1 macro de validaci\'on: las dos primeras \'epocas corresponden al entrenamiento de la capa de clasificaci\'on, y el salto posterior, al ajuste fino de toda la red. \pend{[Comentar en qu\'e \'epoca se detuvo cada modelo y si la l\'inea base muestra sobreajuste.]}
+La ablaci\'on mide el aporte de las t\'ecnicas contra el desbalance: sin aumento de datos ni muestreo ponderado, el F1 macro de EfficientNet-B0 fue \baseFone\,\%, frente a \effFone\,\% con ellas. La mejora se concentra en la sensibilidad: el \textit{recall} macro sube de 78,0 a 80,9\,\%, mientras la precisi\'on se mantiene (80,6 y 80,1\,\%). Sin balanceo, el modelo favorece a las clases mayoritarias y deja de reconocer las minoritarias. La Fig.~\ref{fig:curves} muestra la evoluci\'on del F1 macro de validaci\'on: las dos primeras \'epocas corresponden al entrenamiento de la capa de clasificaci\'on, y el salto posterior, al ajuste fino de toda la red. La l\'inea base alcanza una exactitud de entrenamiento de 100\,\% desde la octava \'epoca de ajuste fino sin mejorar en validaci\'on: memoriza el conjunto de entrenamiento. Con aumento de datos, la exactitud de entrenamiento se estabiliza en 92\,\%. ResNet50 obtuvo su mejor F1 en la \'ultima \'epoca, por lo que podr\'ia mejorar con un entrenamiento m\'as largo.
 
 \begin{figure}[t]
 \centering
@@ -114,11 +114,11 @@ Cultivo equivocado & \effWrong & \resWrong & \baseWrong \\
 \end{tabular}
 \end{table}
 
- La clase con menor F1 fue \effWorstClass{} (\effWorstFone\,\%). La matriz de confusi\'on (Fig.~\ref{fig:cm}) muestra que la mayor\'ia de los errores ocurren dentro de un mismo cultivo: solo el \effWrong\,\% de las predicciones se equivoc\'o de cultivo. \pend{[Verificar contra la figura y nombrar la confusi\'on m\'as frecuente, p.\,ej. entre dos enfermedades virales de la mandioca.]} Un error de cultivo es poco probable en la pr\'actica, porque el agricultor sabe qu\'e cultiva; esto sugiere filtrar las clases por cultivo en la interfaz.
+ La clase con menor F1 fue \effWorstClass{} (\effWorstFone\,\%). La matriz de confusi\'on (Fig.~\ref{fig:cm}) muestra que la mayor\'ia de los errores ocurren dentro de un mismo cultivo: solo el \effWrong\,\% de las predicciones se equivoc\'o de cultivo. En soja, el 23\,\% de las hojas con mancha marr\'on se clasific\'o como roya, ambas con lesiones peque\~nas y oscuras; esta confusi\'on genera falsas alarmas, mientras que el caso inverso (14\,\% de la roya clasificada como mancha marr\'on) es m\'as grave, porque demora el control. En mandioca, la confusi\'on principal es entre hojas enfermas y sanas: el 14\,\% de la bacteriosis y el 11\,\% de la estr\'ia marr\'on se predijeron como sanas, lo que es coherente con s\'intomas tempranos poco visibles y con el ruido de etiquetado conocido de este conjunto \cite{mwebaze2019icassava}.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.95\columnwidth]{figures/confusion_matrix.pdf}
+\includegraphics[width=0.85\columnwidth]{figures/confusion_matrix.pdf}
 \caption{Matriz de confusi\'on normalizada por fila de EfficientNet-B0 en prueba. Ma: mandioca; Se: s\'esamo; So: soja.}
 \label{fig:cm}
 \end{figure}
