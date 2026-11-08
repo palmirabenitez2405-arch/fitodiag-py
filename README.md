@@ -148,7 +148,7 @@ Observaciones:
 - Todos los errores fueron **entre enfermedades del mismo cultivo**. Por eso el filtro por cultivo no cambió el resultado en estas fotos; su utilidad es evitar confusiones de cultivo con fotos más variadas.
 - La clase más difícil es la **mancha marrón de la soja** (0/3): se confunde con roya y ojo de rana, que también tienen lesiones chicas y oscuras. Es también la de menor F1 en el conjunto de prueba.
 - En los errores, Grad-CAM muestra que el modelo mira las lesiones de la hoja y no el fondo: falla porque los síntomas se parecen.
-- Si las fotos salieron de los datasets originales, pueden haber estado en el entrenamiento; no reemplazan una validación con fotos tomadas en Paraguay.
+- Las fotos provienen del conjunto de prueba, que el modelo no vio durante el entrenamiento; no reemplazan una validación con fotos tomadas en Paraguay.
 
 ## API
 
