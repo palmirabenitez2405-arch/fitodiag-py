@@ -114,6 +114,42 @@ Conjunto de prueba: 2.009 imágenes que el modelo nunca vio durante el entrenami
 - El aumento de datos y el muestreo ponderado suben el F1 macro 1,7 puntos y el *recall* macro de 78,0 a 80,9 %: sin ellos, el modelo deja de reconocer las clases chicas.
 - Exactitud por cultivo (EfficientNet-B0): sésamo 97,0 %, mandioca 77,1 %, soja 72,8 %. El modelo se equivoca de cultivo en 1 de 2.009 imágenes.
 
+### Prueba del sistema completo (45 fotos)
+
+Además del conjunto de prueba, se probó el sistema de punta a punta a través de la API: 45 fotos de campo, 3 por clase, enviadas una vez sin filtro y otra con el cultivo correcto y Grad-CAM.
+
+```bash
+python scripts/probar_carpeta.py --fotos ruta/a/imagenes_prueba --out pruebas
+```
+
+| Métrica | Resultado |
+| --- | --- |
+| Accuracy | 36/45 (80 %) |
+| Clase correcta dentro del top-3 | 42/45 (93 %) |
+| Cultivo correcto | 45/45 (100 %) |
+| Accuracy con filtro por cultivo | 36/45 (80 %) |
+| Respuestas con "no estoy seguro" | 7 sin filtro, 5 con filtro |
+| Errores marcados como "no estoy seguro" | 4 de 9 |
+
+| Clase | Aciertos | Clase | Aciertos |
+| --- | :---: | --- | :---: |
+| Mandioca: bacteriosis | 1/3 | Sésamo: amarillamiento | 3/3 |
+| Mandioca: estría marrón | 3/3 | Sésamo: insectos | 3/3 |
+| Mandioca: mosaico | 3/3 | Sésamo: mancha foliar | 3/3 |
+| Mandioca: moteado verde | 1/3 | Sésamo: sana | 3/3 |
+| Mandioca: sana | 3/3 | Soja: mancha marrón | 0/3 |
+| Soja: mosaico | 3/3 | Soja: ojo de rana | 2/3 |
+| Soja: oruga | 2/3 | Soja: roya | 3/3 |
+| Soja: sana | 3/3 | | |
+
+Observaciones:
+
+- La accuracy (80 %) coincide con la del conjunto de prueba (81,5 %).
+- Todos los errores fueron **entre enfermedades del mismo cultivo**. Por eso el filtro por cultivo no cambió el resultado en estas fotos; su utilidad es evitar confusiones de cultivo con fotos más variadas.
+- La clase más difícil es la **mancha marrón de la soja** (0/3): se confunde con roya y ojo de rana, que también tienen lesiones chicas y oscuras. Es también la de menor F1 en el conjunto de prueba.
+- En los errores, Grad-CAM muestra que el modelo mira las lesiones de la hoja y no el fondo: falla porque los síntomas se parecen.
+- Si las fotos salieron de los datasets originales, pueden haber estado en el entrenamiento; no reemplazan una validación con fotos tomadas en Paraguay.
+
 ## API
 
 | Método | Ruta | Descripción |
