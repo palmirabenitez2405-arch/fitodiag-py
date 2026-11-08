@@ -13,3 +13,6 @@ Cargar cada una como issue en GitHub/GitLab con la plantilla `historia`. Los com
 | HU-07 | Como investigador, quiero comparar EfficientNet-B0 y ResNet50. | Tabla con accuracy, F1 macro, top-3 y latencia de ambos. | 5-6 |
 | HU-08 | Como operador, quiero levantar todo con un comando. | `docker compose up --build` deja UI y API funcionando. | 5 |
 | HU-09 | Como evaluador, quiero ver el tiempo de inferencia. | La respuesta incluye `tiempo_inferencia_ms` y la UI lo muestra. | 4 |
+| HU-10 | Como agricultor, quiero indicar qué cultivo fotografié para que el diagnóstico solo considere sus enfermedades. | `/predict?cultivo=` filtra las clases; la UI tiene un selector; se avisa si la foto no parece de ese cultivo. | 7 |
+| HU-11 | Como agricultor/técnico, quiero ver en qué parte de la hoja se fijó el modelo para confiar en el diagnóstico. | `/predict?explicar=true` devuelve un mapa Grad-CAM y la UI lo muestra junto a la foto. | 7 |
+| HU-12 | Como técnico, quiero un historial de los diagnósticos de la sesión para revisarlos o exportarlos. | Pestaña Historial con miniaturas, resumen y descarga CSV. | 7 |
