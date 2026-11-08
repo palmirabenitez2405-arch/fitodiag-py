@@ -1,5 +1,6 @@
 """Pruebas de la API con un modelo de pesos aleatorios (no requiere entrenar)."""
 
+import base64
 import importlib
 import io
 
@@ -69,6 +70,68 @@ def test_predict_png(client):
 def test_predict_rejects_non_image(client):
     r = client.post("/predict", files={"file": ("nota.txt", b"esto no es una imagen", "text/plain")})
     assert r.status_code == 400
+
+
+@pytest.mark.parametrize("crop,name", [("soja", "Soja"), ("mandioca", "Mandioca"), ("sesamo", "Sésamo")])
+def test_predict_crop_filter(client, crop, name):
+    r = client.post(f"/predict?cultivo={crop}", files={"file": ("hoja.jpg", jpeg_bytes(), "image/jpeg")})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["clase"].startswith(f"{crop}__")
+    assert body["cultivo"] == name
+    assert body["cultivo_filtrado"] == name
+    assert all(c["clase"].startswith(f"{crop}__") for c in body["top3"])
+    # las probabilidades se renormalizan dentro del cultivo: el top-3 no puede sumar más de 1
+    assert sum(c["probabilidad"] for c in body["top3"]) <= 1.0 + 1e-3
+
+
+def test_predict_crop_filter_rejects_unknown_crop(client):
+    r = client.post("/predict?cultivo=maiz", files={"file": ("hoja.jpg", jpeg_bytes(), "image/jpeg")})
+    assert r.status_code == 422
+
+
+def test_predict_without_filter_has_no_crop_fields(client):
+    body = client.post("/predict", files={"file": ("hoja.jpg", jpeg_bytes(), "image/jpeg")}).json()
+    assert body["cultivo_filtrado"] is None
+    assert body["aviso_cultivo"] is None
+    assert body["gradcam_png"] is None
+
+
+def test_predict_gradcam(client):
+    r = client.post("/predict?explicar=true", files={"file": ("hoja.jpg", jpeg_bytes(), "image/jpeg")})
+    assert r.status_code == 200
+    png = base64.b64decode(r.json()["gradcam_png"])
+    img = Image.open(io.BytesIO(png))
+    assert img.format == "PNG"
+    assert img.size == (224, 224)
+
+
+def test_gradcam_explains_filtered_class(client):
+    """Con filtro y Grad-CAM a la vez, la clase devuelta sigue siendo del cultivo elegido."""
+    r = client.post("/predict?cultivo=sesamo&explicar=true",
+                    files={"file": ("hoja.jpg", jpeg_bytes(), "image/jpeg")})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["clase"].startswith("sesamo__")
+    assert body["gradcam_png"]
+
+
+def test_predict_rejects_large_file(client, monkeypatch):
+    import api.main as main
+    monkeypatch.setattr(main, "MAX_UPLOAD_MB", 0.001)  # ~1 KB
+    r = client.post("/predict", files={"file": ("hoja.jpg", jpeg_bytes(), "image/jpeg")})
+    assert r.status_code == 413
+
+
+def test_gradcam_map_range():
+    import torch
+
+    from fitodiag.gradcam import logits_and_cam
+    model = build_model("efficientnet_b0", len(CLASSES), pretrained=False).eval()
+    logits, cam = logits_and_cam(model, torch.randn(1, 3, 224, 224))
+    assert logits.shape == (1, len(CLASSES))
+    assert cam.shape == (7, 7)
+    assert cam.min() >= 0.0 and cam.max() <= 1.0
 
 
 def test_treatments_cover_all_classes():
