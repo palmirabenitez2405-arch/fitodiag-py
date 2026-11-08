@@ -102,13 +102,17 @@ También hay atajos en el `Makefile` (`make prepare`, `make train-effnet`, `make
 
 ## Resultados
 
-Se completa con `results.md` después de entrenar (`compare_runs.py` lo genera).
+Conjunto de prueba: 2.009 imágenes que el modelo nunca vio durante el entrenamiento (detalle en `results.md` y en el informe, `paper/main.pdf`).
 
-| Modelo | Params (M) | Acc. (%) | F1 macro (%) | Top-3 (%) | CPU (ms) |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| EfficientNet-B0 | 4,0 | — | — | — | — |
-| ResNet50 | 23,5 | — | — | — | — |
-| EfficientNet-B0 sin aug. ni balanceo | 4,0 | — | — | — | — |
+| Modelo | Params (M) | Acc. (%) | F1 macro (%) | Top-3 (%) | CPU (ms) | Tamaño |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| **EfficientNet-B0** (el de la API) | 4,0 | 81,5 | 80,4 | 97,2 | 53 | 16 MB |
+| ResNet50 | 23,5 | 81,5 | 81,1 | 97,3 | 132 | 94 MB |
+| EfficientNet-B0 sin aumento ni balanceo | 4,0 | 80,4 | 78,7 | 94,8 | 58 | 16 MB |
+
+- EfficientNet-B0 y ResNet50 rinden igual, pero EfficientNet-B0 es 2,5 veces más rápido en CPU y 6 veces más chico: por eso es el modelo de la API.
+- El aumento de datos y el muestreo ponderado suben el F1 macro 1,7 puntos y el *recall* macro de 78,0 a 80,9 %: sin ellos, el modelo deja de reconocer las clases chicas.
+- Exactitud por cultivo (EfficientNet-B0): sésamo 97,0 %, mandioca 77,1 %, soja 72,8 %. El modelo se equivoca de cultivo en 1 de 2.009 imágenes.
 
 ## API
 
