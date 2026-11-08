@@ -21,9 +21,9 @@
 \title{FitoDiag-PY: Diagn\'ostico de Enfermedades Foliares en Soja, Mandioca y S\'esamo mediante Transferencia de Aprendizaje}
 
 \author{\IEEEauthorblockN{Palmira Ben\'itez y Sebasti\'an Villalba}
-\IEEEauthorblockA{\pend{Carrera, Facultad, Universidad}\\
-\pend{Ciudad, Paraguay}\\
-\pend{correo1@ejemplo.com, correo2@ejemplo.com}}}
+\IEEEauthorblockA{Ingeniería Informática, Facultad de Ciencias y Tecnología\\
+Universidad Católica, Encarnación, Paraguay\\
+palmirabenitez2405@gmail.com, sebastianvillalba5432@gmail.com}}
 
 \maketitle
 
@@ -37,9 +37,9 @@ visi\'on por computadora, fitopatolog\'ia, transferencia de aprendizaje, Efficie
 
 \section{Introducci\'on y contexto}
 
-La soja es el principal producto de exportaci\'on de Paraguay: para la campa\~na 2025/26 se proyecta una producci\'on r\'ecord de 12,3 millones de toneladas \cite{lanacion2026soja}. Su enfermedad m\'as importante en el pa\'is es la roya asi\'atica (\textit{Phakopsora pachyrhizi}) \cite{enciso2021roya}, que puede reducir el rendimiento hasta en un 80\,\% si no se controla a tiempo; en enero de 2026 el SENAVE emiti\'o una alerta fitosanitaria por esta causa \cite{lanacion2026roya}. La mandioca ocupa entre 160\,000 y 170\,000 hect\'areas, con una producci\'on cercana a 2 millones de toneladas, y es central para la agricultura familiar \cite{ultimahora2026mandioca}. El s\'esamo es el principal rubro de renta de la agricultura familiar campesina \cite{lanacion2024sesamo}. En los tres casos, el diagn\'ostico depende de que un t\'ecnico recorra el lote, algo dif\'icil de lograr a tiempo para los peque\~nos productores. Un error o un retraso en el diagn\'ostico lleva a aplicaciones tard\'ias o innecesarias de agroqu\'imicos.
+La soja es el principal producto de exportaci\'on de Paraguay: para la campa\~na 2025/26 se proyecta una producci\'on r\'ecord de 12,3 millones de toneladas \cite{lanacion2026soja}. Su enfermedad m\'as importante en el pa\'is es la roya asi\'atica (\textit{Phakopsora pachyrhizi}) \cite{enciso2021roya}, que puede reducir el rendimiento hasta en un 80\,\% si no se controla a tiempo; en enero de 2026 el SENAVE emiti\'o una alerta fitosanitaria por esta causa \cite{lanacion2026roya}. La mandioca ocupa entre 160\,000 y 170\,000 hect\'areas, con una producci\'on cercana a 2 millones de toneladas, y es central para la agricultura familiar \cite{ultimahora2026mandioca}. El s\'esamo es el principal rubro de renta de la agricultura familiar campesina \cite{lanacion2024sesamo}. En los tres casos, el diagn\'ostico depende de que un t\'ecnico recorra el lote, algo dif\'icil de lograr a tiempo para los peque\~nos productores, y un retraso lleva a aplicaciones tard\'ias o innecesarias de agroqu\'imicos.
 
-\textit{Estado del arte.} Mohanty \textit{et al.} \cite{mohanty2016} alcanzaron 99,35\,\% de exactitud sobre PlantVillage, im\'agenes de hojas sobre fondo uniforme, pero la exactitud cay\'o a 31,4\,\% con im\'agenes de otras fuentes. Ferentinos \cite{ferentinos2018} report\'o resultados similares y la misma limitaci\'on. Por eso los trabajos recientes usan fotos de campo: el desaf\'io iCassava \cite{mwebaze2019icassava} y su sucesor en Kaggle \cite{kaggle2020cassava} para mandioca, y conjuntos tomados con smartphone para soja \cite{shinde2024soya} y s\'esamo \cite{sesame2025dataset}. Entre las arquitecturas, ResNet \cite{he2016resnet} introdujo las conexiones residuales y EfficientNet \cite{tan2019efficientnet} escala de forma conjunta profundidad, ancho y resoluci\'on con muchos menos par\'ametros. Para el desbalance, el sobremuestreo es la estrategia m\'as efectiva en redes convolucionales \cite{buda2018imbalance}, y el aumento de datos reduce el sobreajuste cuando hay pocas im\'agenes \cite{shorten2019augmentation}.
+\textit{Estado del arte.} Mohanty \textit{et al.} \cite{mohanty2016} alcanzaron 99,35\,\% de exactitud sobre PlantVillage, im\'agenes de hojas sobre fondo uniforme, pero la exactitud cay\'o a 31,4\,\% con im\'agenes de otras fuentes. Por eso los trabajos recientes usan fotos de campo: el desaf\'io iCassava \cite{mwebaze2019icassava} y su sucesor en Kaggle \cite{kaggle2020cassava} para mandioca, y conjuntos tomados con smartphone para soja \cite{shinde2024soya} y s\'esamo \cite{sesame2025dataset}. Entre las arquitecturas, ResNet \cite{he2016resnet} introdujo las conexiones residuales y EfficientNet \cite{tan2019efficientnet} escala de forma conjunta profundidad, ancho y resoluci\'on con muchos menos par\'ametros. Para el desbalance, el sobremuestreo es la estrategia m\'as efectiva en redes convolucionales \cite{buda2018imbalance}, y el aumento de datos reduce el sobreajuste cuando hay pocas im\'agenes \cite{shorten2019augmentation}.
 
 \textit{Contribuci\'on.} (i) Un conjunto de datos unificado y documentado para tres cultivos relevantes en Paraguay; (ii) una comparaci\'on controlada de dos arquitecturas, con una ablaci\'on de las t\'ecnicas contra el desbalance; y (iii) un sistema desplegable con un solo comando, apto para una demostraci\'on con un celular.
 
@@ -64,7 +64,7 @@ El aumento de datos simula fotos tomadas en el campo: recorte aleatorio (50--100
 Por el desbalance, la m\'etrica principal es el F1 macro. Se reportan adem\'as la exactitud, la exactitud top-3, la tasa de cultivo equivocado (predicci\'on de un cultivo distinto al real) y la latencia en CPU con lote de una imagen y dos hilos (media de 50 ejecuciones tras 10 de calentamiento), que corresponde al contenedor de la API.
 
 \subsection{API e interfaz}
-La Fig.~\ref{fig:arq} muestra la arquitectura. La API en FastAPI expone \texttt{GET /health}, \texttt{GET /classes} y \texttt{POST /predict}. Este \'ultimo recibe la imagen, corrige la orientaci\'on EXIF del celular, aplica la misma transformaci\'on que la validaci\'on y devuelve la clase, la probabilidad, las tres clases m\'as probables, una sugerencia de manejo y el tiempo de inferencia. Si la probabilidad es menor a 0,5, la respuesta indica que el modelo no est\'a seguro y pide otra foto. La interfaz en Streamlit permite subir la foto o tomarla con la c\'amara desde el navegador del celular y solo se comunica con la API. Ambos servicios corren en contenedores Docker orquestados con \texttt{docker compose}; el modelo se monta como volumen de solo lectura.
+La Fig.~\ref{fig:arq} muestra la arquitectura. La API en FastAPI expone \texttt{GET /health}, \texttt{GET /classes} y \texttt{POST /predict}. Este \'ultimo recibe la imagen, corrige la orientaci\'on EXIF del celular, aplica la misma transformaci\'on que la validaci\'on y devuelve la clase, la probabilidad, las tres clases m\'as probables, una sugerencia de manejo y el tiempo de inferencia. Si la probabilidad es menor a 0,5, la respuesta indica que el modelo no est\'a seguro y pide otra foto. Dos par\'ametros opcionales ampl\'ian la respuesta: \texttt{cultivo} restringe la predicci\'on a las clases del cultivo indicado por el usuario y advierte si menos del 50\,\% de la probabilidad original correspond\'ia a ese cultivo, y \texttt{explicar} devuelve un mapa Grad-CAM \cite{selvaraju2017gradcam} superpuesto a la foto con las zonas que m\'as pesaron en el diagn\'ostico. La interfaz en Streamlit permite tomar la foto con la c\'amara del celular, elegir el cultivo, ver el mapa de calor y exportar el historial de la sesi\'on; solo se comunica con la API. Ambos servicios corren en contenedores Docker orquestados con \texttt{docker compose}; el modelo se monta como volumen de solo lectura.
 
 \begin{figure}[t]
 \centering
@@ -118,18 +118,18 @@ Cultivo equivocado & \effWrong & \resWrong & \baseWrong \\
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.85\columnwidth]{figures/confusion_matrix.pdf}
+\includegraphics[width=0.78\columnwidth]{figures/confusion_matrix.pdf}
 \caption{Matriz de confusi\'on normalizada por fila de EfficientNet-B0 en prueba. Ma: mandioca; Se: s\'esamo; So: soja.}
 \label{fig:cm}
 \end{figure}
 
-Estas cifras miden el desempe\~no con im\'agenes de la misma distribuci\'on que el entrenamiento. Como mostraron Mohanty \textit{et al.} \cite{mohanty2016}, el desempe\~no cae con fotos de otras fuentes, y ninguna imagen del conjunto proviene de Paraguay. \pend{[Si probaron con fotos propias tomadas en Paraguay, reportar aqu\'i cu\'antas y cu\'antas acert\'o.]} El umbral de confianza mitiga el riesgo: ante una foto at\'ipica, el sistema pide otra imagen en lugar de dar un diagn\'ostico.
+Estas cifras miden el desempe\~no con im\'agenes de la misma distribuci\'on que el entrenamiento. Como mostraron Mohanty \textit{et al.} \cite{mohanty2016}, el desempe\~no cae con fotos de otras fuentes, y ninguna imagen del conjunto proviene de Paraguay. No se realiz\'o una validaci\'on con fotos locales. El umbral de confianza mitiga el riesgo: ante una foto at\'ipica, el sistema pide otra imagen en lugar de dar un diagn\'ostico.
 
 \section{Conclusiones y trabajo futuro}
 
 FitoDiag-PY demuestra que un modelo liviano como EfficientNet-B0, ajustado sobre datos p\'ublicos de campo, puede diagnosticar enfermedades foliares de tres cultivos paraguayos en \effMs~ms por imagen sin GPU, dentro de un sistema que se despliega con un solo comando. Tres lecciones surgieron del proyecto. Primero, unificar los datos llev\'o m\'as trabajo que entrenar los modelos. Segundo, los conjuntos con im\'agenes aumentadas de f\'abrica pueden inflar las m\'etricas si no se separan antes de dividir. Tercero, con clases desbalanceadas la exactitud global oculta los errores en las clases minoritarias, por lo que conviene reportar el F1 macro.
 
-Las limitaciones principales son la ausencia de im\'agenes paraguayas y dos enfermedades de la mandioca (mosaico y estr\'ia marr\'on) que no est\'an reportadas en Am\'erica, por lo que la API advierte al usuario si las detecta. Adem\'as, las fotos de mandioca suelen mostrar la planta entera y las de soja y s\'esamo una sola hoja, por lo que el modelo podr\'ia aprender el tipo de foto antes que el cultivo. Como trabajo futuro se propone (i) recolectar y etiquetar fotos en Paraguay junto con t\'ecnicos de campo; (ii) filtrar las clases seg\'un el cultivo indicado por el usuario; (iii) cuantizar el modelo para usarlo sin conexi\'on en el celular; (iv) agregar mapas de activaci\'on (Grad-CAM) para explicar cada diagn\'ostico; y (v) ofrecer la interfaz en guaran\'i.
+Las limitaciones principales son la ausencia de im\'agenes paraguayas y dos enfermedades de la mandioca (mosaico y estr\'ia marr\'on) que no est\'an reportadas en Am\'erica, por lo que la API advierte al usuario si las detecta. Adem\'as, las fotos de mandioca suelen mostrar la planta entera y las de soja y s\'esamo una sola hoja, por lo que el modelo podr\'ia aprender el tipo de foto antes que el cultivo. Como trabajo futuro se propone (i) recolectar y etiquetar fotos en Paraguay junto con t\'ecnicos de campo; (ii) evaluar con agricultores si el filtro por cultivo y los mapas Grad-CAM aumentan la confianza en el diagn\'ostico; (iii) cuantizar el modelo para usarlo sin conexi\'on en el celular; y (iv) ofrecer la interfaz en guaran\'i.
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}
