@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -29,6 +30,11 @@ import pandas as pd  # noqa: E402
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from fitodiag.classes import CLASSES, SHORT_LABELS  # noqa: E402
+
+def coma(texto: str) -> str:
+    """Coma decimal (formato en castellano de la plantilla IEEE ES): 81.5 -> 81,5."""
+    return re.sub(r"(\d)\.(\d)", r"\1,\2", texto)
+
 
 PRETTY = {"efficientnet_b0": "EfficientNet-B0", "resnet50": "ResNet50"}
 TEX_NAMES = {"eff": "EfficientNet-B0", "res": "ResNet50", "base": r"EffNet-B0 base$^{\dagger}$"}
@@ -127,7 +133,7 @@ def main() -> None:
         lines.append(f"{row['_tex']} & {row['Params (M)']:.1f} & {row['Acc. (%)']:.1f} & {f1} & "
                      f"{row['Top-3 (%)']:.1f} & {row['CPU (ms)']:.0f} \\\\")
     lines += [r"\hline", r"\end{tabular}"]
-    (paper / "tables" / "results.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (paper / "tables" / "results.tex").write_text(coma("\n".join(lines)) + "\n", encoding="utf-8")
 
     # F1 por clase
     labels = list(per_class)
@@ -138,7 +144,7 @@ def main() -> None:
         vals = " & ".join(f"{100 * per_class[lab].get(c, 0):.0f}" for lab in labels)
         lines.append(f"{SHORT_LABELS[c]} & {vals} \\\\")
     lines += [r"\hline", r"\end{tabular}"]
-    (paper / "tables" / "per_class.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (paper / "tables" / "per_class.tex").write_text(coma("\n".join(lines)) + "\n", encoding="utf-8")
 
     # Dataset
     stats_path = Path(args.data_stats)
@@ -155,7 +161,7 @@ def main() -> None:
         lines += [r"\hline",
                   rf"Total & {len(CLASSES)} & {st['total']['train']} & {st['total']['val']} & "
                   rf"{st['total']['test']} \\", r"\hline", r"\end{tabular}"]
-        (paper / "tables" / "dataset.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
+        (paper / "tables" / "dataset.tex").write_text(coma("\n".join(lines)) + "\n", encoding="utf-8")
         raw_total = sum(st["raw_counts"].values())
         kept = sum(st["total"].values())
         macros += [rf"\newcommand{{\dsRaw}}{{{raw_total}}}", rf"\newcommand{{\dsKept}}{{{kept}}}",
@@ -164,7 +170,7 @@ def main() -> None:
                    rf"\newcommand{{\dsTest}}{{{st['total']['test']}}}",
                    rf"\newcommand{{\dsDup}}{{{st['dropped'].get('duplicada', 0)}}}"]
 
-    (paper / "tables" / "macros.tex").write_text("\n".join(macros) + "\n", encoding="utf-8")
+    (paper / "tables" / "macros.tex").write_text(coma("\n".join(macros)) + "\n", encoding="utf-8")
     best = Path(args.best)
     shutil.copy(best / "confusion_matrix.pdf", paper / "figures" / "confusion_matrix.pdf")
     print(df.to_string(index=False, float_format=lambda v: f"{v:.1f}"))

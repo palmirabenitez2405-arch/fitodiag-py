@@ -15,6 +15,7 @@
 
 \newcommand{\pend}[1]{\textcolor{red}{#1}}
 \input{tables/macros.tex}
+\renewcommand{\IEEEkeywordsname}{\'Indice de T\'erminos}
 
 \begin{document}
 
@@ -32,12 +33,12 @@ Las enfermedades foliares causan p\'erdidas importantes en la soja, la mandioca 
 \end{abstract}
 
 \begin{IEEEkeywords}
-visi\'on por computadora, fitopatolog\'ia, transferencia de aprendizaje, EfficientNet, Paraguay.
+EfficientNet, fitopatolog\'ia, Paraguay, transferencia de aprendizaje, visi\'on por computadora.
 \end{IEEEkeywords}
 
 \section{Introducci\'on y contexto}
 
-La soja es el principal producto de exportaci\'on de Paraguay: para la campa\~na 2025/26 se proyecta una producci\'on r\'ecord de 12,3 millones de toneladas \cite{lanacion2026soja}. Su enfermedad m\'as importante en el pa\'is es la roya asi\'atica (\textit{Phakopsora pachyrhizi}) \cite{enciso2021roya}, que puede reducir el rendimiento hasta en un 80\,\% si no se controla a tiempo; en enero de 2026 el SENAVE emiti\'o una alerta fitosanitaria por esta causa \cite{lanacion2026roya}. La mandioca ocupa entre 160\,000 y 170\,000 hect\'areas, con una producci\'on cercana a 2 millones de toneladas, y es central para la agricultura familiar \cite{ultimahora2026mandioca}. El s\'esamo es el principal rubro de renta de la agricultura familiar campesina \cite{lanacion2024sesamo}. En los tres casos, el diagn\'ostico depende de que un t\'ecnico recorra el lote, algo dif\'icil de lograr a tiempo para los peque\~nos productores, y un retraso lleva a aplicaciones tard\'ias o innecesarias de agroqu\'imicos.
+\IEEEPARstart{L}{a} soja es el principal producto de exportaci\'on de Paraguay: para la campa\~na 2025/26 se proyecta una producci\'on r\'ecord de 12,3 millones de toneladas \cite{lanacion2026soja}. Su enfermedad m\'as importante en el pa\'is es la roya asi\'atica (\textit{Phakopsora pachyrhizi}) \cite{enciso2021roya}, que puede reducir el rendimiento hasta en un 80\,\% si no se controla a tiempo; en enero de 2026 el SENAVE emiti\'o una alerta fitosanitaria por esta causa \cite{lanacion2026roya}. La mandioca ocupa entre 160\,000 y 170\,000 hect\'areas, con una producci\'on cercana a 2 millones de toneladas, y es central para la agricultura familiar \cite{ultimahora2026mandioca}. El s\'esamo es el principal rubro de renta de la agricultura familiar campesina \cite{lanacion2024sesamo}. En los tres casos, el diagn\'ostico depende de que un t\'ecnico recorra el lote, algo dif\'icil de lograr a tiempo para los peque\~nos productores, y un retraso lleva a aplicaciones tard\'ias o innecesarias de agroqu\'imicos.
 
 \textit{Estado del arte.} Mohanty \textit{et al.} \cite{mohanty2016} alcanzaron 99,35\,\% de exactitud sobre PlantVillage, im\'agenes de hojas sobre fondo uniforme, pero la exactitud cay\'o a 31,4\,\% con im\'agenes de otras fuentes. Por eso los trabajos recientes usan fotos de campo: el desaf\'io iCassava \cite{mwebaze2019icassava} y su sucesor en Kaggle \cite{kaggle2020cassava} para mandioca, y conjuntos tomados con smartphone para soja \cite{shinde2024soya} y s\'esamo \cite{sesame2025dataset}. Entre las arquitecturas, ResNet \cite{he2016resnet} introdujo las conexiones residuales y EfficientNet \cite{tan2019efficientnet} escala de forma conjunta profundidad, ancho y resoluci\'on con muchos menos par\'ametros. Para el desbalance, el sobremuestreo es la estrategia m\'as efectiva en redes convolucionales \cite{buda2018imbalance}, y el aumento de datos reduce el sobreajuste cuando hay pocas im\'agenes \cite{shorten2019augmentation}.
 
