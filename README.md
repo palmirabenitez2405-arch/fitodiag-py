@@ -13,7 +13,10 @@ El agricultor saca una foto de una hoja. El sistema devuelve:
 - la enfermedad detectada (15 clases en 3 cultivos);
 - la probabilidad y las otras dos opciones más probables;
 - una sugerencia de manejo;
-- un aviso de "no estoy seguro" cuando la confianza es menor al 50%.
+- un aviso de "no estoy seguro" cuando la confianza es menor al 50%;
+- **filtro por cultivo** (opcional): si el agricultor indica que es soja, mandioca o sésamo, el modelo solo considera las enfermedades de ese cultivo, y avisa si la foto no parece de ese cultivo;
+- **mapa de calor Grad-CAM**: muestra en rojo las zonas de la hoja que más pesaron en el diagnóstico;
+- **historial** de los diagnósticos de la sesión, con resumen y descarga en CSV.
 
 ## Levantar todo con un solo comando
 
@@ -115,8 +118,16 @@ Se completa con `results.md` después de entrenar (`compare_runs.py` lo genera).
 | GET | `/classes` | Las 15 clases con síntomas y sugerencia |
 | POST | `/predict` | Imagen (multipart, campo `file`) → diagnóstico |
 
+Parámetros opcionales de `/predict` (query string):
+
+| Parámetro | Valores | Efecto |
+| --- | --- | --- |
+| `cultivo` | `soja`, `mandioca`, `sesamo` | Solo considera las clases de ese cultivo (las probabilidades se renormalizan dentro del cultivo). Si menos del 50% de la probabilidad original correspondía a ese cultivo, `aviso_cultivo` lo advierte. |
+| `explicar` | `true` / `false` | Agrega `gradcam_png`: el mapa Grad-CAM superpuesto a la foto, PNG en base64. Suma ~100 ms en CPU. |
+
 ```bash
 curl -F "file=@hoja.jpg" http://localhost:8000/predict
+curl -F "file=@hoja.jpg" "http://localhost:8000/predict?cultivo=soja&explicar=true"
 ```
 
 Variables de entorno: `MODEL_PATH`, `CONFIDENCE_THRESHOLD` (0,5), `MAX_UPLOAD_MB` (10), `TORCH_THREADS` (2).
